@@ -149,15 +149,6 @@ val_wcdiff() {
     fi
 }
 
-check_pid() {
-    if [ -f "$path_pid/$name_pid" ]
-    then
-        retval=0
-    else
-        retval=1
-    fi
-}
-
 get_status() {
     filename=${output_dir}/${PROGNAME}-${hostname}-${status_page}.1
     filename=`echo $filename | tr -d '\/'`
