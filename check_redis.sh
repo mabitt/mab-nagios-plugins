@@ -214,7 +214,7 @@ then
         echo "CRITICAL - ${output} | ${perfdata}"
         exit $ST_CR
     else
-        echo "OK - ${output} | ${perfdata} ]"
+        echo "OK - ${output} | ${perfdata}"
         exit $ST_OK
     fi
 else

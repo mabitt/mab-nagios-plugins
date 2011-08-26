@@ -150,8 +150,9 @@ val_wcdiff() {
 }
 
 get_status() {
-    filename=${output_dir}/${PROGNAME}-${hostname}-${status_page}.1
+    filename=${PROGNAME}-${hostname}-${status_page}.1
     filename=`echo $filename | tr -d '\/'`
+    filename=${output_dir}/${filename}
     if [ "$secure" = 1 ]
     then
         wget --no-check-certificate -q -t 3 -T 3 http://${hostname}:${port}/${status_page} -O ${filename}
