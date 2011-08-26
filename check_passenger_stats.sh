@@ -144,7 +144,12 @@ get_vals() {
    passenger_status_global_queue=`cat ${filename}.1 | grep "global queue" | sed 's/.*: //; s/ //;'`
    passenger_status_processed_1=`cat ${filename}.1 | awk '{ sum += $7 }; END { print sum }'`
    passenger_status_processed_2=`cat ${filename}.2 | awk '{ sum += $7 }; END { print sum }'`
-   passenger_status_processed=$((($passenger_status_processed_2 - $passenger_status_processed_1) / ($check_end - $check_start)))
+   if [ ${passenger_status_processed_2} -gt ${passenger_status_processed_1} ]
+      then
+          passenger_status_processed=$((($passenger_status_processed_2 - $passenger_status_processed_1) / ($check_end - $check_start)))
+	  else
+	      passenger_status_processed=0
+   fi
    rm -f ${filename}.*
 }
 
