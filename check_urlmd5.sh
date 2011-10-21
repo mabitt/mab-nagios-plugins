@@ -15,7 +15,7 @@
 #   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 PROGNAME=`basename $0`
-VERSION="Version 0.0.0,"
+VERSION="Version 0.1.0,"
 AUTHOR="MAB@MAB.NET"
 
 
@@ -24,6 +24,7 @@ ST_WR=1
 ST_CR=2
 ST_UK=3
 url=""
+curlextra=""
 
 print_version() {
     echo "$VERSION $AUTHOR"
@@ -47,11 +48,15 @@ while test -n "$1"; do
             print_version $PROGNAME $VERSION
             exit $ST_UK
             ;;
-        --url|-H)
+        --curl)
+            curlextra=$2
+            shift
+            ;;
+        --url)
             url=$2
             shift
             ;;
-        --md5|-P)
+        --md5)
             md5=$2
             shift
             ;;
@@ -72,7 +77,7 @@ get_args() {
 }
 
 get_md5() {
-    md5response=`curl $url 2>/dev/null | md5sum --binary | awk {'print $1'}`
+        md5response=`curl $curlextra $url 2>/dev/null | md5sum --binary | awk {'print $1'}`
 }
 
 # Here we go!
@@ -87,4 +92,3 @@ else
     echo "OK - MD5 check pass"
     exit $ST_OK
 fi
-
