@@ -157,14 +157,14 @@ get_status() {
 }
 
 get_vals() {
-    used_memory=`grep used_memory ${filename} | grep -v human | awk -F: '{print $2}' | tr -d '\r'`
-    used_memory_human=`grep used_memory_human ${filename} | awk -F: '{print $2}' | tr -d '\r'`
-    changes_since_last_save=`grep changes_since_last_save ${filename} | awk -F: '{print $2}' | tr -d '\r'`
-    connected_clients=`grep connected_clients ${filename} | awk -F: '{print $2}' | tr -d '\r'`
-    connected_slaves=`grep connected_slaves ${filename} | awk -F: '{print $2}' | tr -d '\r'`
-    uptime_in_days=`grep uptime_in_days ${filename} | awk -F: '{print $2}' | tr -d '\r'`
-    db0keys=`grep db0 ${output_dir}/$PROGNAME-${hostname}.1 | awk -F, '{print $1}' | awk -F= '{print $2}' | tr -d '\r'`
-    db0expires=`grep db0 ${output_dir}/$PROGNAME-${hostname}.1 | awk -F, '{print $2}' | awk -F= '{print $2}' | tr -d '\r'`
+    used_memory=`grep used_memory: ${filename} | awk -F: '{print $2}' | tr -d '\r'`
+    used_memory_human=`grep used_memory_human: ${filename} | awk -F: '{print $2}' | tr -d '\r'`
+    changes_since_last_save=`grep changes_since_last_save: ${filename} | awk -F: '{print $2}' | tr -d '\r'`
+    connected_clients=`grep connected_clients: ${filename} | awk -F: '{print $2}' | tr -d '\r'`
+    connected_slaves=`grep connected_slaves: ${filename} | awk -F: '{print $2}' | tr -d '\r'`
+    uptime_in_days=`grep uptime_in_days: ${filename} | awk -F: '{print $2}' | tr -d '\r'`
+    db0keys=`grep db0: ${output_dir}/$PROGNAME-${hostname}.1 | awk -F, '{print $1}' | awk -F= '{print $2}' | tr -d '\r'`
+    db0expires=`grep db0: ${output_dir}/$PROGNAME-${hostname}.1 | awk -F, '{print $2}' | awk -F= '{print $2}' | tr -d '\r'`
 
     rm -f ${filename}
 }
