@@ -46,7 +46,7 @@ print_help() {
     echo "     Defines the hostname. Default is: localhost"
     echo "  -P/--port)"
     echo "     Defines the port. Default is: 80"
-	echo "  -p/--password)"
+    echo "  -p/--password)"
     echo "     Name of the server's status page defined in the location"
     echo "     directive of your nginx configuration. Default is:"
     echo "  -o/--output-directory)"
@@ -78,9 +78,9 @@ while test -n "$1"; do
             port=$2
             shift
             ;;
-		--password|-p)
+        --password|-p)
             secure=1
-			password=$2
+            password=$2
             ;;
         --output-directory|-o)
             output_dir=$2
@@ -148,7 +148,7 @@ check_pid() {
 
 get_status() {
     filename=${output_dir}/${PROGNAME}-${hostname}.1
-	if [ "$secure" = 1 ]
+    if [ "$secure" = 1 ]
     then
         redis-cli -h $hostname -p $port  -a $password info > ${filename}
     else
@@ -157,20 +157,20 @@ get_status() {
 }
 
 get_vals() {
-        used_memory=`grep used_memory ${filename} | grep -v human | awk -F: '{print $2}' | tr -d '\r'`
-        used_memory_human=`grep used_memory_human ${filename} | awk -F: '{print $2}' | tr -d '\r'`
-        changes_since_last_save=`grep changes_since_last_save ${filename} | awk -F: '{print $2}' | tr -d '\r'`
-        connected_clients=`grep connected_clients ${filename} | awk -F: '{print $2}' | tr -d '\r'`
-        connected_slaves=`grep connected_slaves ${filename} | awk -F: '{print $2}' | tr -d '\r'`
-        uptime_in_days=`grep uptime_in_days ${filename} | awk -F: '{print $2}' | tr -d '\r'`
-        db0keys=`grep db0 ${output_dir}/$PROGNAME-${hostname}.1 | awk -F, '{print $1}' | awk -F= '{print $2}' | tr -d '\r'`
-        db0expires=`grep db0 ${output_dir}/$PROGNAME-${hostname}.1 | awk -F, '{print $2}' | awk -F= '{print $2}' | tr -d '\r'`
+    used_memory=`grep used_memory ${filename} | grep -v human | awk -F: '{print $2}' | tr -d '\r'`
+    used_memory_human=`grep used_memory_human ${filename} | awk -F: '{print $2}' | tr -d '\r'`
+    changes_since_last_save=`grep changes_since_last_save ${filename} | awk -F: '{print $2}' | tr -d '\r'`
+    connected_clients=`grep connected_clients ${filename} | awk -F: '{print $2}' | tr -d '\r'`
+    connected_slaves=`grep connected_slaves ${filename} | awk -F: '{print $2}' | tr -d '\r'`
+    uptime_in_days=`grep uptime_in_days ${filename} | awk -F: '{print $2}' | tr -d '\r'`
+    db0keys=`grep db0 ${output_dir}/$PROGNAME-${hostname}.1 | awk -F, '{print $1}' | awk -F= '{print $2}' | tr -d '\r'`
+    db0expires=`grep db0 ${output_dir}/$PROGNAME-${hostname}.1 | awk -F, '{print $2}' | awk -F= '{print $2}' | tr -d '\r'`
 
-        rm -f ${filename}
+    rm -f ${filename}
 }
 
 do_output() {
-output="Redis is using \
+    output="Redis is using \
 $used_memory_human of RAM; \
 $uptime_in_days days up; \
 $changes_since_last_save Changes; \
@@ -189,17 +189,17 @@ get_wcdiff
 val_wcdiff
 get_status
 if [ ! -s "$filename" ]; then
-        echo "CRITICAL - Could not connect to server"
-        exit $ST_CR
+    echo "CRITICAL - Could not connect to server"
+    exit $ST_CR
 else
-	get_vals
-	if [ -z "$used_memory_human" ]; then
-		echo "CRITICAL - Error parsing server output"
+    get_vals
+    if [ -z "$used_memory_human" ]; then
+        echo "CRITICAL - Error parsing server output"
         exit $ST_CR
-	else
-	do_output
-	do_perfdata
-	fi
+    else
+        do_output
+        do_perfdata
+    fi
 fi
 
 
@@ -218,6 +218,8 @@ then
         exit $ST_OK
     fi
 else
-   echo "OK - ${output} | ${perfdata}"
+    echo "OK - ${output} | ${perfdata}"
     exit $ST_OK
 fi
+
+# vim: et sw=4 ts=4 sts=4
