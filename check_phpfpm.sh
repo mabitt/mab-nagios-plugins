@@ -165,7 +165,7 @@ get_vals() {
         pool=`grep pool ${filename}|awk '{print $2}'`
         conn=`grep accepted ${filename}|awk '{print $3}'`
         iproc=`grep idle ${filename}|awk '{print $3}'`
-        aproc=`grep active ${filename}|awk '{print $3}'`
+        aproc=$(grep -e "^active processes:" ${filename}  | awk '{print $3}f')
         tproc=`grep total ${filename}|awk '{print $3}'`
         listql=`grep listen ${filename} | grep -v max | awk {'print $4'}`
         mlistql=`grep listen ${filename} | grep max | awk {'print $5'}`
@@ -206,21 +206,22 @@ else
         fi
 fi
 
-
 if [ -n "$warning" -a -n "$critical" ]
 then
-    if [ "$aproc" -ge "$warning" -a "$aproc" -lt "$critical" ]
-    then
-        echo "WARNING - ${output} | ${perfdata}"
-        exit $ST_WR
-    elif [ "$aproc" -ge "$critical" ]
+
+    if [ $aproc -ge $critical ]
     then
         echo "CRITICAL - ${output} | ${perfdata}"
         exit $ST_CR
+    elif [ $aproc -ge $warning ]
+    then
+        echo "WARNING - ${output} | ${perfdata}"
+        exit $ST_WR
     else
         echo "OK - ${output} | ${perfdata} ]"
         exit $ST_OK
     fi
+    
 else
     echo "OK - ${output} | ${perfdata}"
     exit $ST_OK
